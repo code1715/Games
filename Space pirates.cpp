@@ -20,6 +20,7 @@ class Space_Ship
 {
 protected:
 	int police_hp;
+  const int POLICE_DAMAGE = 20;
 public:
 	int coord_x, coord_y, coord_z;
 };
@@ -72,7 +73,7 @@ public:
 		return fill_price;
 	}
 
-	void fill()
+	void set_fuel()
 	{
 		if (money >= fill_price)
 		{
@@ -162,6 +163,27 @@ public:
 		cout << "HP: " << hp << ".\n";
 		cout << "Money: " << money << ".\n";
 	}
+
+  bool fight()
+  {
+    while (police_hp >0 && hp > 0)
+    {
+    police_hp -= gun_damage;
+    hp -= POLICE_DAMAGE;
+    }
+    if (police_hp <= 0) 
+    {
+      cout << "Congratulations! You win the battle!\n";
+      money += 30;
+      return true;
+    }
+    else if (hp <= 0)
+    {
+      cout << "You lose(\n";
+      cout << "Game over.\n";
+      return false;
+    }
+  }
 
 };
 
