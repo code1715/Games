@@ -8,19 +8,19 @@ using std::cin;
 using std::cout;
 /*
 Gun damage:
-1.Bad gun - 10
-2.Blaster - 20
-3.Laser gun - 40
-4.Energetic gun - 60
-5.EMI gun - 80
-6.Gauss gun - 100
+1.Bad gun - 5
+2.Blaster - 10
+3.Laser gun - 15
+4.Energetic gun - 20
+5.EMI gun - 25
+6.Gauss gun - 30
 */
 
 class Space_Ship
 {
 protected:
 	int police_hp = 120;
-	int police_damage = rand() % 20 + 10;
+	int police_damage;
 	int merchant_hp = 40;
 public:
 	int coord_x, coord_y, coord_z;
@@ -44,7 +44,7 @@ public:
 		coord_x = 0;
 		coord_y = 0;
 		coord_z = 0;
-		gun_damage = 10;
+		gun_damage = 5;
 		money = 200;
 		hp = 100;
 		fuel = 100;
@@ -131,6 +131,7 @@ public:
 			}
 			else if (money < 50) cout << "You don't have enough money(\n";
 		}
+
 		if (number == 2)
 		{
 			if (money >= 70)
@@ -141,6 +142,7 @@ public:
 			}
 			else if (money < 70) cout << "You don't have enough money(\n";
 		}
+
 		if (number == 3)
 		{
 			if (money >= 100)
@@ -151,6 +153,7 @@ public:
 			}
 			else if (money < 100) cout << "You don't have enough money(\n";
 		}
+
 		if (number == 4)
 		{
 			if (money >= 130)
@@ -161,6 +164,7 @@ public:
 			}
 			else if (money < 130) cout << "You don't have enough money(\n";
 		}
+
 		if (number == 5)
 		{
 			if (money >= 160)
@@ -171,6 +175,7 @@ public:
 			}
 			else if (money < 160) cout << "You don't have enough money(\n";
 		}
+
 	}
 
 	void get_stats()
@@ -183,7 +188,23 @@ public:
 	bool fight()
 	{
 		srand(time(NULL));
-		if (number == 1)
+    if (gun_damage == 5)
+		{
+			while (police_hp > 0 && hp > 0)
+			{
+				police_damage = rand() % 10 + 0;
+				cout << "You caused " << gun_damage << " damage. ";
+				police_hp -= gun_damage;
+				if (police_hp <= 0) break;
+				cout << "Police hp: " << police_hp << ".\n";
+				cout << "Police caused " << police_damage << " damage. ";
+				hp -= police_damage;
+				if (hp <= 0) break;
+				cout << "Your hp: " << hp << ".\n";
+			}
+		}
+
+    if (gun_damage == 10)
 		{
 			while (police_hp > 0 && hp > 0)
 			{
@@ -198,7 +219,8 @@ public:
 				cout << "Your hp: " << hp << ".\n";
 			}
 		}
-		if (number == 2)
+
+		if (gun_damage == 15)
 		{
 			while (police_hp > 0 && hp > 0)
 			{
@@ -213,7 +235,8 @@ public:
 				cout << "Your hp: " << hp << ".\n";
 			}
 		}
-		if (number == 3)
+
+		if (gun_damage == 20)
 		{
 			while (police_hp > 0 && hp > 0)
 			{
@@ -228,7 +251,8 @@ public:
 				cout << "Your hp: " << hp << ".\n";
 			}
 		}
-		if (number == 4)
+
+		if (gun_damage == 25)
 		{
 			hp = 120;
 			police_hp = 90;
@@ -245,7 +269,8 @@ public:
 				cout << "Your hp: " << hp << ".\n";
 			}
 		}
-		if (number == 5)
+
+		if (gun_damage == 30)
 		{
 			hp = 130;
 			police_hp = 80;
@@ -262,18 +287,21 @@ public:
 				cout << "Your hp: " << hp << ".\n";
 			}
 		}
+
 		if (police_hp <= 0 && hp >0)
 		{
 			cout << "Congratulations! You win the battle!\n";
 			money += 30;
 			return true;
 		}
+
 		else if (hp <= 0)
 		{
 			cout << "Cops have arrested you!\n";
 			cout << "Game over.\n";
 			return false;
 		}
+
 	}
 	void merchant_fight()
 	{
@@ -284,8 +312,8 @@ public:
 			if (merchant_hp > 0) cout << "Merchant's hp: " << merchant_hp << "\n";
 			else
 			{
-				money += 50;
-				cout << "You earned 50 coins.\n";
+				money += 25;
+				cout << "You earned 25 coins.\n";
 			}
 		} 
 	}
@@ -294,11 +322,6 @@ public:
 
 int main()
 {
-	Space_Pirate pirate;
-	pirate.teleport();
-	pirate.calculate_fill();
-	if (pirate.gun_shop()) pirate.buy_gun();
-	pirate.get_stats();
-	pirate.merchant_fight();
-	if (!pirate.fight()) return 0;
+	srand(time(NULL));
+  cout << rand()%1+0;
 }
