@@ -4,6 +4,7 @@
 #include <cmath>
 #include <ctime>
 #include <cstdlib>
+#include <vector>
 using std::cin;
 using std::cout;
 /*
@@ -26,6 +27,7 @@ public:
 	int coord_x, coord_y, coord_z;
 	int p_coord_x, p_coord_y, p_coord_z;
 	int number;
+	int kills = 0;
 };
 
 class Space_Pirate : Space_Ship
@@ -33,7 +35,7 @@ class Space_Pirate : Space_Ship
 private:
 	double fill_price;
 	int repair_price;
-	bool pursuit = true;
+	bool pursuit = false;
 	int fuel;
 	int money;
 	int hp;
@@ -56,7 +58,7 @@ public:
 		if (pursuit == true)
 		{
 			cout << "Cops are pursuiting you, let's fight with them!\n";
-			return;
+			fight();
 		}
 		int coord_x0 = coord_x;  // coord_x0 - coord_x before teleportation
 		int coord_y0 = coord_y;  // coord_y0 - coord_y before teleportation
@@ -101,7 +103,7 @@ public:
 		if (money < repair_price) cout << "You don't have enough money(\n";
 	}
 
-	bool gun_shop()
+	void gun_shop()
 	{
 		char shop;
 		cout << "There are 5 guns in the sale:\n";
@@ -113,8 +115,8 @@ public:
 		cout << "Your money - " << money << ".\n";
 		cout << "Do you want to buy any gun? Enter + or -.\n";
 		do cin >> shop; while (shop != '+' && shop != '-');
-		if (shop == '+') return true;
-		if (shop == '-') return false;
+		if (shop == '+') buy_gun();
+		if (shop == '-') return;
 	}
 
 	void buy_gun()
@@ -127,7 +129,7 @@ public:
 			{
 				cout << "Your new gun is Blaster!\n";
 				money -= 50;
-				gun_damage = 20;
+				gun_damage = 10;
 			}
 			else if (money < 50) cout << "You don't have enough money(\n";
 		}
@@ -138,7 +140,7 @@ public:
 			{
 				cout << "Your new gun is Laser gun!\n";
 				money -= 70;
-				gun_damage = 40;
+				gun_damage = 15;
 			}
 			else if (money < 70) cout << "You don't have enough money(\n";
 		}
@@ -149,7 +151,7 @@ public:
 			{
 				cout << "Your new gun is Energetic gun!\n";
 				money -= 100;
-				gun_damage = 60;
+				gun_damage = 20;
 			}
 			else if (money < 100) cout << "You don't have enough money(\n";
 		}
@@ -160,7 +162,7 @@ public:
 			{
 				cout << "Your new gun is EMI gun!\n";
 				money -= 130;
-				gun_damage = 80;
+				gun_damage = 25;
 			}
 			else if (money < 130) cout << "You don't have enough money(\n";
 		}
@@ -171,7 +173,7 @@ public:
 			{
 				cout << "Your new gun is Gauss gun!\n";
 				money -= 160;
-				gun_damage = 100;
+				gun_damage = 30;
 			}
 			else if (money < 160) cout << "You don't have enough money(\n";
 		}
@@ -303,6 +305,7 @@ public:
 		}
 
 	}
+	
 	void merchant_fight()
 	{
 		cout << "You attacked the merchant.\n";
@@ -316,12 +319,25 @@ public:
 				cout << "You earned 25 coins.\n";
 			}
 		} 
+		kills++;
+		check();
+	}
+	
+	void check()
+	{
+	    char check_p;
+	    if (kills > 5) pursuit = true;
+	    cout << "Do you want to teleport? Enter + or -.\n";
+		do cin >> check_p; while (check_p != '+' && check_p != '-'); 
+	    if (check_p == '+') teleport();
+	    else if (check_p == '-') fight();
 	}
 
 };
 
 int main()
 {
-	srand(time(NULL));
-  cout << rand()%1+0;
+	Space_Pirate pirate;
+	pirate.gun_shop();
+	pirate.merchant_fight();
 }
