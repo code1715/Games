@@ -35,7 +35,6 @@ class Space_Pirate : Space_Ship
 private:
 	double fill_price;
 	int repair_price;
-	bool pursuit = false;
 	int fuel;
 	int money;
 	int hp;
@@ -55,11 +54,6 @@ public:
 	void teleport()
 	{
 		srand(time(NULL));
-		if (pursuit == true)
-		{
-			cout << "Cops are pursuiting you, let's fight with them!\n";
-			fight();
-		}
 		int coord_x0 = coord_x;  // coord_x0 - coord_x before teleportation
 		int coord_y0 = coord_y;  // coord_y0 - coord_y before teleportation
 		int coord_z0 = coord_z;  // coord_z0 - coord_z before teleportation
@@ -190,6 +184,7 @@ public:
 	bool fight()
 	{
 		srand(time(NULL));
+		int hp0;
     if (gun_damage == 5)
 		{
 			while (police_hp > 0 && hp > 0)
@@ -326,18 +321,23 @@ public:
 	void check()
 	{
 	    char check_p;
-	    if (kills > 5) pursuit = true;
-	    cout << "Do you want to teleport? Enter + or -.\n";
+	    if (kills > 5) 
+	    {
+	        fight();
+	        return;
+	    }
+	    else 
+	    {
+	    cout << "Do you want to teleport? Cops are going to you. Enter + or -.\n";
 		do cin >> check_p; while (check_p != '+' && check_p != '-'); 
 	    if (check_p == '+') teleport();
 	    else if (check_p == '-') fight();
+	    }
 	}
 
 };
 
 int main()
 {
-	Space_Pirate pirate;
-	pirate.gun_shop();
-	pirate.merchant_fight();
+    
 }
