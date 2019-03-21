@@ -6,7 +6,7 @@
 #include <cstdlib>
 using std::cin;
 using std::cout;
-/* 
+/*
 Gun damage:
 1.Bad gun - 10
 2.Blaster - 20
@@ -19,10 +19,13 @@ Gun damage:
 class Space_Ship
 {
 protected:
-	int police_hp;
-  const int POLICE_DAMAGE = 20;
+	int police_hp = 120;
+	int police_damage = rand() % 20 + 10;
+	int merchant_hp = 40;
 public:
 	int coord_x, coord_y, coord_z;
+	int p_coord_x, p_coord_y, p_coord_z;
+	int number;
 };
 
 class Space_Pirate : Space_Ship
@@ -33,7 +36,7 @@ private:
 	bool pursuit = true;
 	int fuel;
 	int money;
-  int hp;
+	int hp;
 	int gun_damage;
 public:
 	Space_Pirate()
@@ -42,20 +45,20 @@ public:
 		coord_y = 0;
 		coord_z = 0;
 		gun_damage = 10;
-		money = 150;
+		money = 200;
 		hp = 100;
 		fuel = 100;
 	}
-	
+
 	void teleport()
 	{
 		srand(time(NULL));
-		if (pursuit == true) 
-    {
-    cout << "Cops pursuit you, let's fight with them!\n";
-    return;
-    }
-    int coord_x0 = coord_x;  // coord_x0 - coord_x before teleportation
+		if (pursuit == true)
+		{
+			cout << "Cops are pursuiting you, let's fight with them!\n";
+			return;
+		}
+		int coord_x0 = coord_x;  // coord_x0 - coord_x before teleportation
 		int coord_y0 = coord_y;  // coord_y0 - coord_y before teleportation
 		int coord_z0 = coord_z;  // coord_z0 - coord_z before teleportation
 		coord_x = rand() % 20;
@@ -66,11 +69,14 @@ public:
 		cout << "You have been teleported to: " << coord_x << ", " << coord_y << ", " << coord_z << ".\n";
 		cout << "Fuel: " << fuel << ".\n";
 	}
-	
-	double calculate_fill()
+
+	void calculate_fill()
 	{
 		fill_price = (100.0 - fuel) * 0.3;
-		return fill_price;
+	}
+	void calculate_repair()
+	{
+		repair_price = (100.0 - hp) * 0.3;
 	}
 
 	void set_fuel()
@@ -82,6 +88,17 @@ public:
 			cout << "Your money: " << money << ".\n";
 		}
 		if (money < fill_price) cout << "You don't have enough money(\n";
+	}
+
+	void set_hp()
+	{
+		if (money >= repair_price)
+		{
+			money -= repair_price;
+			hp = 100;
+			cout << "Your money: " << money << ".\n";
+		}
+		if (money < repair_price) cout << "You don't have enough money(\n";
 	}
 
 	bool gun_shop()
@@ -102,7 +119,6 @@ public:
 
 	void buy_gun()
 	{
-		int number;
 		cout << "Enter the number of gun, what you want to buy: ";
 		do cin >> number; while (number != 1 && number != 2 && number != 3 && number != 4 && number != 5);
 		if (number == 1)
@@ -164,26 +180,115 @@ public:
 		cout << "Money: " << money << ".\n";
 	}
 
-  bool fight()
-  {
-    while (police_hp >0 && hp > 0)
-    {
-    police_hp -= gun_damage;
-    hp -= POLICE_DAMAGE;
-    }
-    if (police_hp <= 0) 
-    {
-      cout << "Congratulations! You win the battle!\n";
-      money += 30;
-      return true;
-    }
-    else if (hp <= 0)
-    {
-      cout << "You lose(\n";
-      cout << "Game over.\n";
-      return false;
-    }
-  }
+	bool fight()
+	{
+		srand(time(NULL));
+		if (number == 1)
+		{
+			while (police_hp > 0 && hp > 0)
+			{
+				police_damage = rand() % 20 + 10;
+				cout << "You caused " << gun_damage << " damage. ";
+				police_hp -= gun_damage;
+				if (police_hp <= 0) break;
+				cout << "Police hp: " << police_hp << ".\n";
+				cout << "Police caused " << police_damage << " damage. ";
+				hp -= police_damage;
+				if (hp <= 0) break;
+				cout << "Your hp: " << hp << ".\n";
+			}
+		}
+		if (number == 2)
+		{
+			while (police_hp > 0 && hp > 0)
+			{
+				police_damage = rand() % 20 + 30;
+				cout << "You caused " << gun_damage << " damage. ";
+				police_hp -= gun_damage;
+				if (police_hp <= 0) break;
+				cout << "Police hp: " << police_hp << ".\n";
+				cout << "Police caused " << police_damage << " damage. ";
+				hp -= police_damage;
+				if (hp <= 0) break;
+				cout << "Your hp: " << hp << ".\n";
+			}
+		}
+		if (number == 3)
+		{
+			while (police_hp > 0 && hp > 0)
+			{
+				police_damage = rand() % 20 + 50;
+				cout << "You caused " << gun_damage << " damage. ";
+				police_hp -= gun_damage;
+				if (police_hp <= 0) break;
+				cout << "Police hp: " << police_hp << ".\n";
+				cout << "Police caused " << police_damage << " damage. ";
+				hp -= police_damage;
+				if (hp <= 0) break;
+				cout << "Your hp: " << hp << ".\n";
+			}
+		}
+		if (number == 4)
+		{
+			hp = 120;
+			police_hp = 90;
+			while (police_hp > 0 && hp > 0)
+			{
+				police_damage = rand() % 20 + 70;
+				cout << "You caused " << gun_damage << " damage. ";
+				police_hp -= gun_damage;
+				if (police_hp <= 0) break;
+				cout << "Police hp: " << police_hp << ".\n";
+				cout << "Police caused " << police_damage << " damage. ";
+				hp -= police_damage;
+				if (hp <= 0) break;
+				cout << "Your hp: " << hp << ".\n";
+			}
+		}
+		if (number == 5)
+		{
+			hp = 130;
+			police_hp = 80;
+			while (police_hp > 0 && hp > 0)
+			{
+				police_damage = rand() % 20 + 90;
+				cout << "You caused " << gun_damage << " damage. ";
+				police_hp -= gun_damage;
+				if (police_hp <= 0) break;
+				cout << "Police hp: " << police_hp << ".\n";
+				cout << "Police caused " << police_damage << " damage. ";
+				hp -= police_damage;
+				if (hp <= 0) break;
+				cout << "Your hp: " << hp << ".\n";
+			}
+		}
+		if (police_hp <= 0 && hp >0)
+		{
+			cout << "Congratulations! You win the battle!\n";
+			money += 30;
+			return true;
+		}
+		else if (hp <= 0)
+		{
+			cout << "Cops have arrested you!\n";
+			cout << "Game over.\n";
+			return false;
+		}
+	}
+	void merchant_fight()
+	{
+		cout << "You attacked the merchant.\n";
+		while (merchant_hp > 0)
+		{
+			merchant_hp -= gun_damage;
+			if (merchant_hp > 0) cout << "Merchant's hp: " << merchant_hp << "\n";
+			else
+			{
+				money += 50;
+				cout << "You earned 50 coins.\n";
+			}
+		} 
+	}
 
 };
 
@@ -194,5 +299,6 @@ int main()
 	pirate.calculate_fill();
 	if (pirate.gun_shop()) pirate.buy_gun();
 	pirate.get_stats();
-	return 0;
+	pirate.merchant_fight();
+	if (!pirate.fight()) return 0;
 }
